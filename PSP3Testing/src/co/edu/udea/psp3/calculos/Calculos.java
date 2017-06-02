@@ -1,6 +1,7 @@
 package co.edu.udea.psp3.calculos;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import co.edu.udea.testing.psp3.exceptions.CalculoException;
 
@@ -85,4 +86,51 @@ public class Calculos {
 		return desviacion;
 	}
 
+	/**
+	 *  Transform the data to Log-Normally.
+	 * @param sizesPerItemList
+	 * @return
+	 * @throws CalculoException
+	 */
+	public List<Double> estimateLogNormally(List<Double> sizesPerItemList) throws CalculoException{
+		
+		List<Double> logNormallyOfSizesList = new LinkedList<>();
+		
+		for (Double sizePerItem : sizesPerItemList) {
+			logNormallyOfSizesList.add(Math.log(sizePerItem));
+		}
+		
+		return logNormallyOfSizesList;
+	}
+	
+	/**
+	 * Estimate a list of size per item based in a list of part size and a list of number of items in each part.
+	 * @param partSizeList List with the list of sizes of each part.
+	 * @param numberItemsList List with the number of items in each part.
+	 * @return List with the sizes per Item.
+	 * @throws CalculoException 
+	 */
+	public List<Double> calculateSizesPerItem(List<Double> partSizeList, List<Double> numberItemsList) throws CalculoException{
+		
+		List<Double> sizesPerItemList = new LinkedList<>();
+		
+		int sizePartList = partSizeList.size();
+		int sizeitemsList = numberItemsList.size();
+		
+		if(sizePartList != sizeitemsList){
+			throw new CalculoException("The lists of number Items and parts size are not the same.");
+		}
+		
+		
+		for (int i = 0; i < sizeitemsList; i++) {
+			
+			Double sizePerItem = partSizeList.get(i)/numberItemsList.get(i);			
+			sizesPerItemList.add(sizePerItem);
+		}
+		
+		return sizesPerItemList;
+		
+	}
+
+	
 }
